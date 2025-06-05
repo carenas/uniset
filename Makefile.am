@@ -1,4 +1,4 @@
-AUTOMAKE_OPTIONS = 1.6 foreign subdir-objects nostdinc
+AUTOMAKE_OPTIONS = 1.11 foreign subdir-objects nostdinc
 AM_CFLAGS = @warning_cflags@
 
 bin_PROGRAMS = uniset
