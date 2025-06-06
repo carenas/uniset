@@ -178,14 +178,14 @@ integers.  Each entry is a range of characters.  The plane offsets
 are not printed because they’re not required to search the 32-bit
 table.  A pair may cross a Unicode plane boundary.
 
-    $ uniset --32 cat:Zs
-    { 32, 32 },
-    { 160, 160 },
-    { 5760, 5760 },
-    { 8192, 8202 },
-    { 8239, 8239 },
-    { 8287, 8287 },
-    { 12288, 12288 }
+    $ uniset --32 --fmt=0x%04X cat:Zs
+    { 0x0020, 0x0020 },
+    { 0x00A0, 0x00A0 },
+    { 0x1680, 0x1680 },
+    { 0x2000, 0x200A },
+    { 0x202F, 0x202F },
+    { 0x205F, 0x205F },
+    { 0x3000, 0x3000 }
 
 Here is the C code for checking membership, where `n` is the array
 size:

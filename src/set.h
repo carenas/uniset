@@ -38,13 +38,13 @@ struct set *
 set_complement(struct set *x);
 
 void
-set_print(FILE *f, struct set *x);
+set_print(FILE *f, struct set const *x);
 
 void
-set_print16(FILE *f, struct set *x);
+set_print16(FILE *f, struct set const *x, char const *fmt);
 
 void
-set_print32(FILE *f, struct set *x);
+set_print32(FILE *f, struct set const *x, char const *fmt);
 
 void
 setbuilder_init(struct setbuilder *restrict s);
