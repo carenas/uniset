@@ -84,7 +84,13 @@ valid_fmt(char const *restrict fmt)
 {
     char buf[15];
     char const *percent;
-    long l = 0x1ffffffffl;
+#ifdef _LP64
+    long l = 0x1ffffffff;
+#define STRTOL strtol
+#else
+    long long l = 0x1ffffffff;
+#define STRTOL strtoll
+#endif
     int lower = 0;
     char *endptr = 0;
     size_t r, sz = strlen(fmt);
@@ -99,7 +105,7 @@ valid_fmt(char const *restrict fmt)
 
     if (strchr(fmt, 'x') || strchr(fmt, 'X')) {
         r = (size_t)snprintf(buf, sizeof(buf), fmt, l);
-        if (!r || r >= sizeof(buf) || strtol(buf, 0, 16) == l)
+        if (!r || r >= sizeof(buf) || STRTOL(buf, 0, 16) == l)
             return 0;
         r = (size_t)sprintf(buf, fmt, 17);
         l = strtol(buf, 0, 0);
@@ -108,7 +114,7 @@ valid_fmt(char const *restrict fmt)
         lower = 2;
     } else if (strchr(fmt, 'o')) {
         r = (size_t)snprintf(buf, sizeof(buf), fmt, l);
-        if (!r || r >= sizeof(buf) || strtol(buf, 0, 8) == l)
+        if (!r || r >= sizeof(buf) || STRTOL(buf, 0, 8) == l)
             return 0;
         r = (size_t)sprintf(buf, fmt, 9);
         l = strtol(buf, 0, 0);
@@ -117,7 +123,7 @@ valid_fmt(char const *restrict fmt)
         lower = 1;
     } else {
         r = (size_t)snprintf(buf, sizeof(buf), fmt, l);
-        if (!r || r >= sizeof(buf) || strtol(buf, 0, 10) == l)
+        if (!r || r >= sizeof(buf) || STRTOL(buf, 0, 10) == l)
             return 0;
         r = (size_t)snprintf(buf, sizeof(buf), fmt, 1114111);
         if (r >= sizeof(buf) || strspn(buf, " 14LUlu") != r)
